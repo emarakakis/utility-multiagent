@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Preferences Survey</title>
+</head>
+<body>
+    <p>If you would like to use your own database, upload a txt file here. Else, you will use our own database!</p>
+    <input type="file" id="document-upload" name="document" accept=".txt">
+
+    <form id="car-preferences-form">
+        <p>Do you have a family?</p>
+        <input type="radio" name="family" value="no"><label for="family-no">No</label>
+        <input type="radio" name="family" value="neutral" checked><label for="family-neutral">Personal Use</label>
+        <input type="radio" name="family" value="yes"><label for="family-yes">Yes</label>
+    
+        <p>What type of distances do you travel?</p>
+        <input type="radio" name="distances" value="short"><label for="distances-short">Short</label>
+        <input type="radio" name="distances" value="neutral" checked><label for="distances-neutral">Neutral</label>
+        <input type="radio" name="distances" value="long"><label for="distances-long">Long</label>
+    
+        <p>Do you drive fast?</p>
+        <input type="radio" name="speed" value="slow"><label for="speed-slow">Slow</label>
+        <input type="radio" name="speed" value="neutral" checked><label for="speed-neutral">Neutral</label>
+        <input type="radio" name="speed" value="fast"><label for="speed-fast">Fast</label>
+    
+        <p>What model would you like to purchase?</p>
+        <input type="radio" name="model" value="city" id="model-city" checked><label for="model-city">City</label>
+        <input type="radio" name="model" value="suv" id="model-suv"><label for="model-suv">SUV</label>
+        <input type="radio" name="model" value="pickup" id="model-pickup"><label for="model-pickup">Pickup</label>
+        <input type="radio" name="model" value="convertible" id="model-convertible"><label for="model-convertible">Convertible</label>
+        <input type="radio" name="model" value="sports" id="model-sports"><label for="model-sports">Sports</label>
+    
+        <p>What type of engine would you like?</p>
+        <input type="radio" name="engine" value="diesel"><label for="engine-diesel">Diesel</label>
+        <input type="radio" name="engine" value="petrol"><label for="engine-petrol">Petrol</label>
+        <input type="radio" name="engine" value="hybrid" checked><label for="engine-hybrid">Hybrid</label>
+        <input type="radio" name="engine" value="electric"><label for="engine-electric">Electric</label>
+    
+        <br><button id="send-form">Submit</button>
+    </form>
+    
+
+    <p id="file-content"></p>
+
+    <script>
+        const CAR_DATABASE = "./carDatabase.txt"
+        const cars = []
+        const utilityCars = []
+
+        document.getElementById("send-form").addEventListener("click", async function(event) {
+            event.preventDefault(); // Prevent form submission (page reload)
+
+            // Collect form data
+            const family = document.querySelector('input[name="family"]:checked').value;
+            const distances = document.querySelector('input[name="distances"]:checked').value;
+            const speed = document.querySelector('input[name="speed"]:checked').value;
+            const model = document.querySelector('input[name="model"]:checked').value;
+            const engine = document.querySelector('input[name="engine"]:checked').value;
+
+            // Display the collected form data
+            const formData = {
+                family,
+                distances,
+                speed,
+                model,
+                engine
+            };
+            console.log("Form Data: ", formData);
+
+            let fileContents = '';
+            const fileInput = document.getElementById("document-upload")
+
+            // Load car database
+            if (!fileInput.files[0]) {
+                await fetch(CAR_DATABASE)
+                    .then(response => response.text()) // Read the file content
+                    .then(text => {
+                        const lines = text.split('\n')
+                        for (const line of lines) {
+                            addCar(line);
+                        }
+                    })
+                    .catch(error => {
+                        alert("Failed to load the default database: " + error.message);
+                    });
+            } else {
+                const reader = new FileReader();
+
+                reader.onload = function(progressEvent) {
+                    // Entire file content
+                    const text = this.result;
+                    document.getElementById("file-content").innerText = text;
+
+                    const lines = text.split('\n');
+                    for (const line of lines) {
+                        console.log(line);
+                    }
+                };
+                reader.readAsText(file);
+            }
+            judgeCars(formData)
+        });
+
+        function judgeCars(form){
+            for (const car of cars) {    
+                let carUtility = 0;
+                
+                const accelerationUtility = getAccelerationUtility(car, car.acceleration, form);
+                carUtility += accelerationUtility;
+
+                const speedUtility = getSpeedUtility(car, car.maxSpeed, form);
+                carUtility += speedUtility;
+
+                const modelUtility = getModelUtility(car, car.model, form);
+                carUtility += modelUtility;
+
+                const engineUtility = getEngineUtility(car, car.engine, form);
+                carUtility += engineUtility;
+
+                utilityCars.push({ name: car.name, utility: carUtility });
+            }
+
+            utilityCars.sort((a, b) => b.utility - a.utility);
+            console.log(utilityCars)
+        }
+
+        function addCar(line) {
+            const car = line.split('|');
+            cars.push({
+                name: car[0],
+                acceleration: calculateAccelerationUtility(Number(car[1])),
+                maxSpeed: calculateSpeedUtility(Number(car[2])),
+                model: calculateModelUtility(car[3]),
+                engine: calculateEngineUtility(car[4]),
+                colour: calculateColourUtility(car[5])
+            });
+        }
+
+        function calculateAccelerationUtility(acceleration) {
+            if (acceleration < 3) {
+                return 10; // Supercars and hypercars
+            } else if (acceleration >= 3 && acceleration < 5) {
+                return 9;  // High-performance sports cars
+            } else if (acceleration >= 5 && acceleration < 6.5) {
+                return 8;  // Sports cars and performance sedans
+            } else if (acceleration >= 6.5 && acceleration < 8) {
+                return 7;  // Hot hatches and compact performance cars
+            } else if (acceleration >= 8 && acceleration < 10) {
+                return 5;  // Standard family sedans, compact crossovers
+            } else {
+                return 3;  // Very slow cars (economy cars, older models, etc.)
+            }
+        }
+
+        function calculateSpeedUtility(maxSpeed) {
+            if (maxSpeed > 350) {
+                return 10;  // Extreme hypercars, very rare and high-speed cars
+            } else if (maxSpeed >= 300 && maxSpeed <= 350) {
+                return 9;   // Supercars, high-performance cars
+            } else if (maxSpeed >= 250 && maxSpeed < 300) {
+                return 8;   // High-performance sports cars, luxury cars
+            } else if (maxSpeed >= 200 && maxSpeed < 250) {
+                return 6;   // Mid-range sports cars, fast sedans
+            } else if (maxSpeed >= 150 && maxSpeed < 200) {
+                return 4;   // Standard sedans, hatchbacks, and economy cars
+            } else {
+                return 2;   // Very slow cars, older models, economy vehicles
+            }
+        }
+
+        function calculateModelUtility(model) {
+            switch(model.toLowerCase()) {
+                case "sports":
+                    return 10;
+                case "convertible":
+                    return 7.5;
+                case "pickup":
+                    return 5;
+                case "suv":
+                    return 2.5;
+                case "city":
+                    return 0;
+                default:
+                    return -1; // Default case for undefined models
+            }
+        }
+
+        function calculateEngineUtility(engine) {
+            switch(engine.toLowerCase()) {
+                case "electric":
+                    return 10;
+                case "hybrid":
+                    return 7.5;
+                case "petrol":
+                    return 2.5;
+                case "diesel":
+                    return 0;
+                default:
+                    return -1; // Default case for undefined models
+            }
+        }
+
+        function calculateColourUtility(colour){
+            colour = colour.trim().toLowerCase();
+            switch(colour.toLowerCase()) {
+                case "white":
+                    return 10;
+                case "yellow":
+                    return 8;
+                case "green":
+                    return 6;
+                case "red":
+                    return 4;
+                case "blue":
+                    return 2;
+                case "black":
+                    return 0;
+                default:
+                    return -1; // Default case for undefined models
+            }
+        }
+
+        function getAccelerationUtility(car, acceleration, form) {
+            const speed = form.speed.trim().toLowerCase(); // Make sure speed is trimmed and lowercase
+
+            switch (speed) {
+                case "fast":
+                    return utilityBigValues(acceleration);
+                case "slow":
+                    return utilitySmallValues(acceleration);
+                case "neutral":
+                    return utilityMiddleValues(acceleration);
+                default:
+                    return 0;
+            }
+        }
+
+        function getSpeedUtility(car, speed, form) {
+            const userSpeedPreference = form.speed.trim().toLowerCase();
+            switch (userSpeedPreference) {
+                case "fast":
+                    return utilityBigValues(speed)
+                case "slow":
+                    return utilitySmallValues(speed)
+                case "neutral":
+                    return utilityMiddleValues(speed)
+                default:
+                    return 0; 
+            }
+        }
+
+        function getModelUtility(car, model, form) {
+            const userModelPreference = form.model.trim().toLowerCase();
+            
+            switch (userModelPreference) {
+                case "sports":
+                    return utilityBigValues(model) 
+                case "suv":
+                    return utilityMiddleLowValues(model) 
+                case "pickup":
+                    return utilityMiddleValues(model)  
+                case "sedan":
+                    return utilityMiddleBigValues(model)
+                case "city":
+                    return utilitySmallValues(model)
+                default:
+                    return 0;
+            }
+        }
+
+        function getEngineUtility(car, engine, form) {
+            const userEnginePreference = form.engine.trim().toLowerCase(); // User's engine preference (e.g., "electric", "hybrid", "diesel", "petrol")
+            switch (userEnginePreference) {
+                case "electric":
+                    return utilityBigValues(engine)
+                case "hybrid":
+                    return utilityMiddleBigValues(engine)
+                case "diesel":
+                    return utilitySmallValues(engine)
+                case "petrol":
+                    return utilityMiddleSmallValues(engine)
+                default:
+                    return 0;
+            }
+        }
+
+
+        function utilitySmallValues(value){
+            return 10 - value
+        }
+
+        function utilityBigValues(value){
+            return value
+        }
+
+                
+        function utilityMiddleValues(value) {
+            return Math.max(0, 10 - Math.pow(value - 5, 2) / 2);  
+        }
+        
+        function utilityMiddleBigValues(value) {
+            return Math.max(0, 10 - Math.pow(value - 7, 2) / 2);  
+        }
+        
+        function utilityMiddleSmallValues(value) {
+            return Math.max(0, 10 - Math.pow(value - 3, 2) / 2);  
+        }
+
+
+        function utilityIndeferent(value){
+            return 5;
+        }
+
+    </script>
+</body>
+</html>

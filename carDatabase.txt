@@ -1,0 +1,20 @@
+Toyota Celica|10|200|sports|diesel|white
+Opel Corsa|15|190|city|diesel|black
+Ford Mustang|5|250|sports|petrol|red
+Chevrolet Tahoe|8|180|suv|diesel|blue
+Honda Civic|12|200|city|petrol|white
+Jeep Wrangler|9|170|suv|petrol|green
+Tesla Model S|3|250|sports|electric|black
+BMW X5|7|240|suv|diesel|yellow
+Mazda MX-5|7|220|convertible|petrol|red
+Audi Q7|6|210|suv|hybrid|blue
+Toyota Hilux|10|160|pickup|diesel|white
+Ford F-150|9|180|pickup|petrol|blue
+Nissan Leaf|10|150|city|electric|green
+Chevrolet Camaro|6|240|sports|petrol|yellow
+Volkswagen Golf|11|190|city|diesel|black
+Porsche 911|4|300|sports|petrol|white
+Lamborghini Urus|3|305|suv|petrol|red
+Hyundai Kona|8|170|suv|hybrid|blue
+Fiat 500|14|160|city|petrol|white
+Range Rover|7|220|suv|diesel|green
