@@ -1,0 +1,129 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align to the top of the viewport */
+    height: 100vh;
+    overflow: auto; /* Allow scrolling on the body */
+}
+
+/* Container for the entire form */
+.container {
+    background-color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 900px;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-y: auto; /* Ensures the form scrolls if content overflows */
+    height: auto; /* Allow container to resize based on content */
+    margin-bottom: 20px; /* Add some space after the form */
+}
+
+/* Title */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form layout */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center; /* Centers the form elements */
+}
+
+/* Section title styling */
+.form-section p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+/* Radio buttons styling */
+label {
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+/* Radio button & range slider input styles */
+input[type="radio"], input[type="range"], input[type="file"] {
+    margin: 8px 0;
+}
+
+/* Range slider wrapper */
+.range-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Ensure the wrapper takes full width */
+    gap: 10px; /* Optional gap between the range slider and value */
+}
+
+/* Range input styling */
+.range-wrapper input[type="range"] {
+    width: 100%; /* Ensure the range input fills the full width of the wrapper */
+    margin-right: 10px;
+}
+
+/* Range value display */
+.range-wrapper span {
+    font-size: 16px;
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* File upload styling */
+.file-upload-wrapper {
+    margin-bottom: 30px;
+    width: 100%; /* Ensure the file input fills the space */
+    display: flex;
+    justify-content: center; /* Center the file input horizontally */
+}
+
+/* File input styling */
+input[type="file"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 50%; /* Adjust size of the file input */
+    text-align: center; /* Ensure the text is centered */
+}
+
+#car-results {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 900px;
+    height: 300px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    text-align: center;
+}
+
+/* Submit button styling */
+.submit-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center; /* Ensure the button is centered */
+}
+
+/* Hover effect for the submit button */
+.submit-button:hover {
+    background-color: #45a049;
+}

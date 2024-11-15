@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Preferences Survey</title>
+    <link rel="stylesheet" href="styling.css"> <!-- Link to the external CSS file -->
+</head>
+<body>
+
+    <div class="container">
+        <h1>Car Preferences Survey</h1>
+
+        <p>If you would like to use your own database, upload a txt file here. Else, you will use our own database!</p>
+        <div class="file-upload-wrapper">
+            <input type="file" id="document-upload" name="document" accept=".txt">
+        </div>
+
+        <form id="car-preferences-form">
+            <div class="form-section">
+                <p>How fast do you want the car to reach 100 km/h?</p>
+                <div>
+                    <input type="radio" name="acceleration" value="12" id="acceleration-12"><label for="acceleration-12">Above 12 sec</label>
+                    <input type="radio" name="acceleration" value="10" id="acceleration-10"><label for="acceleration-10">10 sec</label>
+                    <input type="radio" name="acceleration" value="8" id="acceleration-8" checked><label for="acceleration-8">8 sec</label>
+                    <input type="radio" name="acceleration" value="6" id="acceleration-6"><label for="acceleration-6">6 sec</label>
+                    <input type="radio" name="acceleration" value="4" id="acceleration-4"><label for="acceleration-4">  > Under 4 sec</label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p>Do you want the max speed to be near:</p>
+                <div>
+                    <input type="radio" name="speed" value="180" id="speed-180"><label for="speed-180">180 km/h</label>
+                    <input type="radio" name="speed" value="220" id="speed-220"><label for="speed-220">220 km/h</label>
+                    <input type="radio" name="speed" value="250" id="speed-250" checked><label for="speed-250">250 km/h (Neutral)</label>
+                    <input type="radio" name="speed" value="280" id="speed-280"><label for="speed-280">280 km/h</label>
+                    <input type="radio" name="speed" value="320" id="speed-320"><label for="speed-320">320 km/h</label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p>What model would you like to purchase?</p>
+                <div>
+                    <input type="radio" name="model" value="city" id="model-city" checked><label for="model-city">City</label>
+                    <input type="radio" name="model" value="suv" id="model-suv"><label for="model-suv">SUV</label>
+                    <input type="radio" name="model" value="pickup" id="model-pickup"><label for="model-pickup">Pickup</label>
+                    <input type="radio" name="model" value="convertible" id="model-convertible"><label for="model-convertible">Convertible</label>
+                    <input type="radio" name="model" value="sports" id="model-sports"><label for="model-sports">Sports</label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p>What type of engine would you like?</p>
+                <div>
+                    <input type="radio" name="engine" value="diesel" id="engine-diesel"><label for="engine-diesel">Diesel</label>
+                    <input type="radio" name="engine" value="petrol" id="engine-petrol"><label for="engine-petrol">Petrol</label>
+                    <input type="radio" name="engine" value="hybrid" id="engine-hybrid" checked><label for="engine-hybrid">Hybrid</label>
+                    <input type="radio" name="engine" value="electric" id="engine-electric"><label for="engine-electric">Electric</label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p>What colour would you like the car to be?</p>
+                <div>
+                    <input type="radio" name="colour" value="white" id="colour-white" checked><label for="colour-white">White</label>
+                    <input type="radio" name="colour" value="yellow" id="colour-yellow"><label for="colour-yellow">Yellow</label>
+                    <input type="radio" name="colour" value="green" id="colour-green"><label for="colour-green">Green</label>
+                    <input type="radio" name="colour" value="red" id="colour-red"><label for="colour-red">Red</label>
+                    <input type="radio" name="colour" value="blue" id="colour-blue"><label for="colour-blue">Blue</label>
+                    <input type="radio" name="colour" value="black" id="colour-black"><label for="colour-black">Black</label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p>How important is acceleration to you?</p>
+                <div class="range-wrapper">
+                    <input type="range" id="acceleration-weight" min="0.5" max="1.5" step="0.01" value="1">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p>How important is speed to you?</p>
+                <div class="range-wrapper">
+                    <input type="range" id="speed-weight" min="0.5" max="1.5" step="0.01" value="1">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p>How important is the car's model to you?</p>
+                <div class="range-wrapper">
+                    <input type="range" id="model-weight" min="0.5" max="1.5" step="0.01" value="1">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p>How important is the engine type to you?</p>
+                <div class="range-wrapper">
+                    <input type="range" id="engine-weight" min="0.5" max="1.5" step="0.01" value="1">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p>How important is the car colour to you?</p>
+                <div class="range-wrapper">
+                    <input type="range" id="colour-weight" min="1" max="5" step="0.01" value="2.5">
+                </div>
+            </div>
+
+            <button id="send-form" class="submit-button">Submit</button>
+        </form>
+
+        <div id="car-results">
+        </div>
+    </div>
+
+    
+
+    <script src="app.js"></script>
+</body>
+</html>

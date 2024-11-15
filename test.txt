@@ -1,0 +1,9 @@
+Toyota Celica|10|200|sPorTS|diESeL|WhITe
+Opel Corsa|15|190|CiTY|dIEseL|BlACk
+Ford Mustang|5|250|SpOrTS|PeTrOL|rED
+Chevrolet Tahoe|8|180|SuV|DiEsel|bLUe
+Honda Civic|12|200|CiTy|pEtRoL|WhItE
+Jeep Wrangler|9|170|sUv|pEtROl|GrEEn
+Tesla Model S|3|250|SporTS|ElEctRiC|BlACK
+BMW X5|7|240|SuV|dIeSel|YelLoW
+Mazda MX-5|7|220|CoNvertIBLe|PeTrOl|ReD
